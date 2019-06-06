@@ -38,15 +38,17 @@
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="btn btn-default">
+                            <button class="btn btn-default"
+                                    onclick="carrinho.clickDecremento(this)">
                                 <span class="glyphicon-minus"></span>
                             </button>
                         </span>
                         <input type="text" value=@item.Quantidade
-                               class="form-control text-center" />
+                               class="form-control text-center" 
+                               onblur="carrinho.updateQuantidade(this)"/>
                         <span class="input-group-btn">
                             <button class="btn btn-default"
-                                    onclick="clickIncremento(this)">
+                                    onclick="carrinho.clickIncremento(this)">
                                 <span class="glyphicon-plus"></span>
                             </button>
                         </span>
@@ -71,7 +73,7 @@
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                    @Model.Sum(i => i.PrecoUnitario)
+                    @Model.Sum(i => i.PrecoUnitario * i.Quantidade)
                 </span>
             </div>
         </div>
@@ -93,21 +95,5 @@
 
 @section Scripts
 {
-    <script type="text/javascript">
-        function clickIncremento(btn) {
-            var linhaProduto = $(btn).parents('[item-id]');
-            var itemId = $(linhaProduto).attr('item-id');
-            var novaQtd = $(linhaProduto).find('input').val();
-            var data = {
-                id: itemId,
-                quantidade: novaQtd
-            }
-            $.ajax({
-                url: '/pedido/updatequantidade',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(data)
-            })
-        }
-    </script>
+    <script src="~/js/carrinho.js"></script>
 }
