@@ -15,10 +15,11 @@ namespace CasaDoCodigo.Repositories
         private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly ICadastroRepository cadastroRepository;
         public PedidoRepository(ApplicationContext contexto, IHttpContextAccessor contextAccessor,
-            IItemPedidoRepository itemPedidoRepository) : base(contexto)
+            IItemPedidoRepository itemPedidoRepository, ICadastroRepository cadastroRepository) : base(contexto)
         {
             this.contextAccessor = contextAccessor;
             this.itemPedidoRepository = itemPedidoRepository;
+            this.cadastroRepository = cadastroRepository;
         }
 
         public void AddItem(string codigo)
@@ -50,6 +51,7 @@ namespace CasaDoCodigo.Repositories
             var pedido = dbSet
                 .Include(p => p.Itens)
                     .ThenInclude(p => p.Produto)
+                .Include(p => p.Cadastro)
                 .Where(p => p.Id == pedidoId)
                 .SingleOrDefault();
 

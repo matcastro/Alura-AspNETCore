@@ -14,10 +14,14 @@ namespace CasaDoCodigo.Repositories
 
         public Cadastro UpdateCadastro(int cadastroId, Cadastro novoCadastro)
         {
-            Cadastro cadastro = dbSet.Where(c => c.Id == cadastroId).SingleOrDefault();
-            
+            Cadastro cadastroDb = dbSet.Where(c => c.Id == cadastroId).SingleOrDefault();
+            if(cadastroDb == null)
+            {
+                throw new ArgumentNullException(nameof(novoCadastro));
+            }
+            cadastroDb.Update(novoCadastro);
             contexto.SaveChanges();
-            return cadastro;
+            return cadastroDb;
         }
     }
 }
