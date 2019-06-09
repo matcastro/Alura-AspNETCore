@@ -12,5 +12,6 @@ namespace CasaDoCodigo.Repositories
         void AddItem(string codigo);
 
         UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido);
+        Pedido UpdateCadastro(Cadastro cadastro);
     }
 }

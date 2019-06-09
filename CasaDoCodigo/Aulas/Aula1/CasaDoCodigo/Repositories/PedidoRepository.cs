@@ -13,6 +13,7 @@ namespace CasaDoCodigo.Repositories
     {
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IItemPedidoRepository itemPedidoRepository;
+        private readonly ICadastroRepository cadastroRepository;
         public PedidoRepository(ApplicationContext contexto, IHttpContextAccessor contextAccessor,
             IItemPedidoRepository itemPedidoRepository) : base(contexto)
         {
@@ -70,6 +71,13 @@ namespace CasaDoCodigo.Repositories
         public void SetPedidoId(int pedidoId)
         {
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+        }
+
+        public Pedido UpdateCadastro(Cadastro cadastro)
+        {
+            var pedido = GetPedido();
+            cadastroRepository.UpdateCadastro(pedido.Cadastro.Id, cadastro);
+            return pedido;
         }
 
         public UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido)
