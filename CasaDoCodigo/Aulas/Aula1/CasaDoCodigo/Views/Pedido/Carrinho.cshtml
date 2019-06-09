@@ -2,7 +2,7 @@
     ViewData["Title"] = "Carrinho";
 }
 
-@model IList<ItemPedido>;
+@model CarrinhoViewModel;
 
 <h3>Meu Carrinho</h3>
 
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="panel-body">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Itens)
         {
             <div class="row row-center linha-produto" item-id="@item.Id">
                 <div class="col-md-3">
@@ -67,13 +67,13 @@
         <div class="row">
             <div class="col-md-10">
                 <span numero-itens>
-                    Total: @Model.Sum(i => i.Quantidade)
+                    Total: @Model.Itens.Sum(i => i.Quantidade)
                     itens
                 </span>
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                    @Model.Sum(i => i.PrecoUnitario * i.Quantidade)
+                    @Model.Total
                 </span>
             </div>
         </div>

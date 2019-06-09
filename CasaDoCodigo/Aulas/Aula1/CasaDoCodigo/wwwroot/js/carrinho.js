@@ -2,7 +2,6 @@
     clickIncremento(btn) {
         var data = this.getData(btn);
         data.quantidade++;
-        console.log(data);
         this.postQuantidade(data);
     }
 
@@ -34,7 +33,23 @@
             contentType: 'application/json',
             data: JSON.stringify(data)
         })
+            .done(function (response) {
+                let itemPedido = response.itemPedido;
+                let carrinhoViewModel = response.carrinhoViewModel;
+                let linhaDoPedido = $('[item-id=' + itemPedido.id + ']');
+                linhaDoPedido.find('input').val(itemPedido.quantidade);
+                if (itemPedido.quantidade == 0) {
+                    linhaDoPedido.remove();
+                }
+                linhaDoPedido.find('[subtotal]').html((itemPedido.subtotal).duasCasas());
+                $('[numero-itens]').html('Total: ' + carrinhoViewModel.itens.length + ' itens');
+                $('[total]').html((carrinhoViewModel.total).duasCasas());
+            })
     }
 }
 
 var carrinho = new Carrinho();
+
+Number.prototype.duasCasas = function () {
+    return this.toFixed(2).replace('.', ',');
+}
